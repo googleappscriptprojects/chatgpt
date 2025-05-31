@@ -1,20 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Embedded Content</title>
+<title>Digital Prodcuts</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Hide scrollbars if any from the main page */
+  }
+
+  #welcome-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; /* Ensure it's on top of everything */
+    opacity: 0; /* Start hidden for animation */
+    visibility: hidden; /* Start hidden for animation */
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  }
+
+  #welcome-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .welcome-content {
+    color: white;
+    text-align: center;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: rgba(50, 50, 50, 0.7); /* Slightly more solid background for text */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transform: translateY(30px); /* Start slightly lower for animation */
+    opacity: 0; /* Start text hidden for animation */
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s, opacity 0.7s ease-in-out 0.3s; /* Delay text animation */
+  }
+
+  #welcome-overlay.visible .welcome-content {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .welcome-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    font-family: 'Arial', sans-serif; /* Choose a nice font */
+    color: #4CAF50; /* A welcoming green */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+  }
+
+  .welcome-content p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 20px;
+  }
+
+  .welcome-content .proceed-text {
+    font-size: 1em;
+    font-style: italic;
+    color: #ddd;
+  }
+
+  /* Optional: Add a subtle pulse animation to the title */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+  .welcome-content h1 {
+    animation: pulse 2s infinite ease-in-out;
+  }
+
+</style>
 </head>
 <body>
+
+<div id="welcome-overlay">
+  <div class="welcome-content">
+    <h1>Welcome to Our Shop!</h1>
+    <p>Discover amazing Digital Products. We hope you like our services.</p>
+    <p class="proceed-text">Great! Your content is loaded. Please proceed.</p>
+  </div>
+</div>
+
 <iframe src="https://script.google.com/macros/s/AKfycbzwloJkJ_8E-mV0iBaK-d15YpQdvJv7gkGbxSaETlq5pxQS64q71HlyHQWwvYfdNfaFKA/exec"
 width="100%"
 height="100%"
 allowfullscreen="true"
 style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+
 <script>
 window.onload = function() {
-document.querySelector('iframe').requestFullscreen().catch((err) => {
-console.error(`Error attempting to enable full-screen mode: ${err.message}`);
-});
+  const welcomeOverlay = document.getElementById('welcome-overlay');
+
+  // Show the welcome message
+  setTimeout(function() { // A small delay to ensure page is settled
+    welcomeOverlay.classList.add('visible');
+  }, 100); // 100ms delay
+
+  // Hide the welcome message after a few seconds
+  setTimeout(function() {
+    welcomeOverlay.style.opacity = '0'; // Start fade out
+    welcomeOverlay.style.visibility = 'hidden'; // Hide after transition
+    // Optional: remove the element entirely after transition if preferred
+    // setTimeout(() => welcomeOverlay.remove(), 500); // 500ms matches CSS transition
+  }, 5000); // Display for 5 seconds (5000 milliseconds)
+
+  // Attempt to fullscreen the iframe (your original code)
+  // This might be best called after the welcome message has faded or immediately
+  // depending on desired user experience.
+  // If called immediately, the welcome overlay with its z-index will still be on top.
+  document.querySelector('iframe').requestFullscreen().catch((err) => {
+    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+    // You might want to inform the user if fullscreen fails,
+    // or if the welcome message should behave differently.
+  });
 };
 </script>
+
 </body>
 </html>
