@@ -1,133 +1,241 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Digital Prodcuts</title>
-  <meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Products Shop</title>
 
-<style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden; /* Hide scrollbars if any from the main page */
-  }
+  <!-- Google Font: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
 
-  #welcome-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000; /* Ensure it's on top of everything */
-    opacity: 0; /* Start hidden for animation */
-    visibility: hidden; /* Start hidden for animation */
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-  }
+  <style>
+    /* --------------------------------------------
+       1. Base Resets
+       -------------------------------------------- */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  #welcome-overlay.visible {
-    opacity: 1;
-    visibility: visible;
-  }
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      font-family: "Poppins", sans-serif;
+      overflow: hidden; /* Prevent scrollbars */
+      background: #f5f5f5;
+    }
 
-  .welcome-content {
-    color: white;
-    text-align: center;
-    padding: 30px;
-    border-radius: 10px;
-    background-color: rgba(50, 50, 50, 0.7); /* Slightly more solid background for text */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    transform: translateY(30px); /* Start slightly lower for animation */
-    opacity: 0; /* Start text hidden for animation */
-    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s, opacity 0.7s ease-in-out 0.3s; /* Delay text animation */
-  }
+    /* --------------------------------------------
+       2. Welcome Overlay Container
+       -------------------------------------------- */
+    #welcome-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
 
-  #welcome-overlay.visible .welcome-content {
-    transform: translateY(0);
-    opacity: 1;
-  }
+      /* Start hidden */
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
 
-  .welcome-content h1 {
-    font-size: 2.5em;
-    margin-bottom: 15px;
-    font-family: 'Arial', sans-serif; /* Choose a nice font */
-    color: #4CAF50; /* A welcoming green */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-  }
+    /* When adding “.show”, it fades in */
+    #welcome-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
 
-  .welcome-content p {
-    font-size: 1.2em;
-    line-height: 1.6;
-    font-family: 'Arial', sans-serif;
-    margin-bottom: 20px;
-  }
+    /* --------------------------------------------
+       3. Welcome Card (Text + Spinner + Button)
+       -------------------------------------------- */
+    .welcome-content {
+      max-width: 90%;
+      padding: 2rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      color: #ffffff;
 
-  .welcome-content .proceed-text {
-    font-size: 1em;
-    font-style: italic;
-    color: #ddd;
-  }
+      /* Slide-up entrance */
+      animation: slideUp 0.8s ease-out;
+    }
 
-  /* Optional: Add a subtle pulse animation to the title */
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-    100% { transform: scale(1); }
-  }
-  .welcome-content h1 {
-    animation: pulse 2s infinite ease-in-out;
-  }
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
 
-</style>
+    .welcome-content h1 {
+      font-size: 2.25rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      color: #4caf50; /* Green accent */
+    }
+
+    .welcome-content p {
+      font-size: 1.125rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    /* --------------------------------------------
+       4. “Enter Shop” Button
+       -------------------------------------------- */
+    .btn-enter {
+      background-color: #4caf50;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      outline: none;
+    }
+
+    .btn-enter:hover {
+      background-color: #43a047;
+      transform: translateY(-2px);
+    }
+
+    .btn-enter:active {
+      background-color: #388e3c;
+      transform: translateY(0);
+    }
+
+    /* --------------------------------------------
+       5. Spinner (Loading Indicator)
+       -------------------------------------------- */
+    .spinner {
+      margin: 1.5rem auto;
+      width: 48px;
+      height: 48px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #4caf50;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* --------------------------------------------
+       6. Iframe Styling
+       -------------------------------------------- */
+    #shop-iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      z-index: 1;
+
+      /* Start hidden until user clicks “Enter Shop” */
+      visibility: hidden;
+    }
+  </style>
 </head>
 <body>
+  <!-- =================================
+       A. Welcome Overlay
+       ================================= -->
+  <div id="welcome-overlay">
+    <div class="welcome-content">
+      <h1>Welcome to Our Digital Shop</h1>
+      <p>Explore our premium digital products and services. Click below to proceed.</p>
 
-<div id="welcome-overlay">
-  <div class="welcome-content">
-    <h1>Welcome to Our Shop!</h1>
-    <p>Discover amazing Digital Products. We hope you like our services.</p>
-    <p class="proceed-text">Great! Your content is loaded. Please proceed.</p>
+      <!-- Spinner shows while iframe is loading -->
+      <div class="spinner"></div>
+
+      <!-- User must click to enter fullscreen + reveal the iframe -->
+      <button class="btn-enter" id="btn-enter">Enter Shop</button>
+    </div>
   </div>
-</div>
 
-<iframe src="https://script.google.com/macros/s/AKfycbzwloJkJ_8E-mV0iBaK-d15YpQdvJv7gkGbxSaETlq5pxQS64q71HlyHQWwvYfdNfaFKA/exec"
-width="100%"
-height="100%"
-allowfullscreen="true"
-style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+  <!-- =================================
+       B. Fullscreen Iframe (Hidden by Default)
+       ================================= -->
+  <iframe
+    src="https://script.google.com/macros/s/AKfycbzwloJkJ_8E-mV0iBaK-d15YpQdvJv7gkGbxSaETlq5pxQS64q71HlyHQWwvYfdNfaFKA/exec"
+    id="shop-iframe"
+    allowfullscreen
+  ></iframe>
 
-<script>
-window.onload = function() {
-  const welcomeOverlay = document.getElementById('welcome-overlay');
+  <!-- =================================
+       C. JavaScript Logic
+       ================================= -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const overlay = document.getElementById("welcome-overlay");
+      const enterBtn = document.getElementById("btn-enter");
+      const iframe = document.getElementById("shop-iframe");
 
-  // Show the welcome message
-  setTimeout(function() { // A small delay to ensure page is settled
-    welcomeOverlay.classList.add('visible');
-  }, 100); // 100ms delay
+      // 1) Fade in the overlay shortly after page load
+      setTimeout(() => {
+        overlay.classList.add("show");
+      }, 100);
 
-  // Hide the welcome message after a few seconds
-  setTimeout(function() {
-    welcomeOverlay.style.opacity = '0'; // Start fade out
-    welcomeOverlay.style.visibility = 'hidden'; // Hide after transition
-    // Optional: remove the element entirely after transition if preferred
-    // setTimeout(() => welcomeOverlay.remove(), 500); // 500ms matches CSS transition
-  }, 5000); // Display for 5 seconds (5000 milliseconds)
+      // 2) When the user clicks “Enter Shop”:
+      enterBtn.addEventListener("click", () => {
+        // a) Attempt to enter fullscreen on the <html> element
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement
+            .requestFullscreen()
+            .catch((err) => {
+              console.warn("Fullscreen request failed:", err);
+            });
+        }
 
-  // Attempt to fullscreen the iframe (your original code)
-  // This might be best called after the welcome message has faded or immediately
-  // depending on desired user experience.
-  // If called immediately, the welcome overlay with its z-index will still be on top.
-  document.querySelector('iframe').requestFullscreen().catch((err) => {
-    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
-    // You might want to inform the user if fullscreen fails,
-    // or if the welcome message should behave differently.
-  });
-};
-</script>
+        // b) Reveal the iframe
+        iframe.style.visibility = "visible";
 
+        // c) Fade out the overlay
+        overlay.classList.remove("show");
+
+        // d) After the fade-out transition is done, remove overlay from DOM
+        setTimeout(() => {
+          overlay.style.display = "none";
+        }, 600);
+      });
+
+      // 3) When the iframe actually finishes loading, hide the spinner
+      iframe.addEventListener("load", () => {
+        const spinner = document.querySelector(".spinner");
+        if (spinner) {
+          spinner.style.display = "none";
+        }
+      });
+    });
+  </script>
 </body>
 </html>
