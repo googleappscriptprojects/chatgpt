@@ -1,66 +1,20 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <base target="_top">
-    <style>
-      #loading {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        flex-direction: column;
-      }
-
-      .spinner {
-        border: 6px solid #f3f3f3;
-        border-top: 6px solid #3498db;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 1s linear infinite;
-        margin-bottom: 15px;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
-      iframe {
-        width: 100%;
-        height: 100vh;
-        border: none;
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="loading">
-      <div class="spinner"></div>
-      <div>Loading, please wait...</div>
-    </div>
-
-    <div id="iframe-container"></div>
-
-    <script>
-      google.script.run.withSuccessHandler(function(url) {
-        const iframe = document.createElement('iframe');
-        iframe.src = url;
-
-        iframe.onload = function() {
-          document.getElementById('loading').style.display = 'none';
-          iframe.style.display = 'block';
-        };
-
-        document.getElementById('iframe-container').appendChild(iframe);
-      }).getEmbeddedUrl();
-    </script>
-  </body>
+<head>
+<title>Embedded Content</title>
+</head>
+<body>
+<iframe src="https://script.google.com/macros/s/AKfycbzwloJkJ_8E-mV0iBaK-d15YpQdvJv7gkGbxSaETlq5pxQS64q71HlyHQWwvYfdNfaFKA/exec"
+width="100%"
+height="100%"
+allowfullscreen="true"
+style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+<script>
+window.onload = function() {
+document.querySelector('iframe').requestFullscreen().catch((err) => {
+console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+});
+};
+</script>
+</body>
 </html>
